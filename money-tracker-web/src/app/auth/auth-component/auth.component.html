@@ -1,11 +1,38 @@
-<form [formGroup]="authForm">
-  <mat-form-field class="example-full-width">
-    <mat-label>Email</mat-label>
-    <input type="text" matInput formControlName="email" />
-  </mat-form-field>
+<div class="auth_wrapper">
+  <div class="auth_elem">
+    <form [formGroup]="authForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput formControlName="email" />
+        @if (authForm.controls['email'].touched &&
+        authForm.controls['email'].hasError('email')) {
+        <mat-error>Please enter valid email</mat-error>
+        } @if (authForm.controls['email'].touched &&
+        authForm.controls['email'].hasError('required')) {
+        <mat-error>Email is required</mat-error>
+        }
+      </mat-form-field>
+      <br />
 
-  <mat-form-field class="example-full-width">
-    <mat-label>Password</mat-label>
-    <input type="text" matInput formControlName="password" />
-  </mat-form-field>
-</form>
+      <mat-form-field class="example-full-width">
+        <mat-label>Password</mat-label>
+        <input type="text" matInput formControlName="password" />
+        @if (authForm.controls['password'].touched &&
+        authForm.controls['password'].hasError('minlength')) {
+        <mat-error>Password length should be 5 symbols and more</mat-error>
+        } @if (authForm.controls['password'].hasError('required')) {
+        <mat-error>Password is required</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+
+  <div class="auth_elem">
+    <button mat-stroked-button (click)="signIn()" [disabled]="authForm.invalid">
+      Sign In
+    </button>
+    <button mat-flat-button (click)="signUp()" [disabled]="authForm.invalid">
+      Sign Up
+    </button>
+  </div>
+</div>
