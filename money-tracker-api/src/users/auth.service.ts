@@ -19,7 +19,6 @@ export class AuthService {
   async signup(email: string, password: string) {
     const users = await this.usersService.find(email);
 
-    console.log('users', users);
     if (users.length) throw new BadRequestException('email in use');
     const salt = randomBytes(8).toString('hex');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
@@ -49,7 +48,7 @@ export class AuthService {
         subject: user.id.toString(),
       });
 
-      return jwtBearerToken;
+      return [jwtBearerToken, user];
     } else {
       throw new BadRequestException('bad password');
     }
