@@ -3,13 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule.forRoot({
+      imports: [
+        UsersModule,
+        ConfigModule.forRoot({
         isGlobal: true,
-      }),],
+      }),
+    ],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('POSTGRES_HOST'),
@@ -17,8 +21,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        // synchronize: true, // Be cautious about using synchronize in production
+        autoLoadEntities: true,
+        synchronize: true, // only for dev uses!
       }),
       inject: [ConfigService],
     }),
