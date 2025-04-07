@@ -1,16 +1,17 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environment';
 
 @Injectable({ providedIn: 'root' })
 export class HttpService {
-  private readonly baseUrl = 'http://localhost:3000';
+  private readonly baseUrl = `${environment.apiUrl}`;
 
   constructor(private http: HttpClient) {}
 
-  get<T>(endpoint: string, params?: any): Observable<T> {
+  get(endpoint: string, params?: any): Observable<any> {
     const options = { params: new HttpParams({ fromObject: params }) };
-    return this.http.get<T>(this.baseUrl + endpoint, options);
+    return this.http.get(this.baseUrl + endpoint, options);
   }
 
   post<T>(endpoint: string, body: any): Observable<T> {

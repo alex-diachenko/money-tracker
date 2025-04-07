@@ -27,6 +27,12 @@
     </form>
   </div>
 
+  @if(signedUp) {
+  <p [ngStyle]="{ 'text-align': 'center' }">
+    You have successfully signed up. Please log in with your credentials.
+  </p>
+  }
+
   <div class="auth_elem">
     <button mat-stroked-button (click)="signIn()" [disabled]="authForm.invalid">
       Sign In
