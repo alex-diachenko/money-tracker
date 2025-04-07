@@ -1,5 +1,4 @@
 import { Body, Controller, Post, Session } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -28,6 +27,6 @@ export class UsersController {
     const [jwtToken, user] = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
 
-    return jwtToken;
+    return JSON.stringify(jwtToken);
   }
 }

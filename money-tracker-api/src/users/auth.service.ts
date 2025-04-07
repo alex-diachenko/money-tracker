@@ -2,18 +2,19 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { randomBytes, scrypt as _scrypt } from 'crypto';
 import { UsersService } from './users.service';
 import { promisify } from 'util';
 import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
-import * as path from 'path';
 
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
+    private readonly JWT_SECRET = 'super-secret-key';
+
   constructor(private usersService: UsersService) {}
 
   async signup(email: string, password: string) {
@@ -39,18 +40,19 @@ export class AuthService {
     const hash = (await scrypt(password, salt, 32)) as Buffer;
 
     if (storedHash === hash.toString('hex')) {
-      const privateKeyPath = path.join(__dirname, '../../key/private.key');
-
-      const privateKey = await fs.promises.readFile(privateKeyPath, 'utf8');
-      const jwtBearerToken = jwt.sign({}, privateKey, {
-        algorithm: 'RS256',
-        expiresIn: 120,
-        subject: user.id.toString(),
-      });
+    const jwtBearerToken = jwt.sign({}, this.JWT_SECRET, { expiresIn: '6h', subject: user.id.toString() });
 
       return [jwtBearerToken, user];
     } else {
       throw new BadRequestException('bad password');
+    }
+  }
+
+  verifyToken(token: string) {
+    try {
+      return jwt.verify(token, this.JWT_SECRET);
+    } catch {
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }
