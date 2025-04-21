@@ -1,1 +1,14 @@
-<p>transactions works!</p>
+<div class="wrapper">
+  <div class="test">
+    Transactions
+
+    <button mat-flat-button color="action">+ Add transaction</button>
+  </div>
+  <div class="test">
+    <button mat-flat-button color="action" (click)="openDialog()">Filter transactions</button>
+    <button mat-flat-button color="warn" [disabled]="true">Reset filters</button>
+  </div>
+  <div>
+
+  </div>
+</div>

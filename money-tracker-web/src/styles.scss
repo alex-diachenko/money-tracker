@@ -1,2 +1,23 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background: rgba(249, 253, 245, 0.956);
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+*, div {
+  box-sizing: border-box;
+}
+
+.mat-custom {
+  background-color: #fff !important;
+  color: #a3f9d5 !important;
+}
+
+.mat-action {
+  background-color: #a3f9d5 !important;
+  color:#fff !important;
+}
