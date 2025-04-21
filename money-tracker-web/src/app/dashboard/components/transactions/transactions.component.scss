@@ -2,7 +2,7 @@
   background: #ecececdb;
 }
 
-.test {
+.horizontal {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,4 +11,8 @@
 
 .mat-warn {
   background-color: #ff4d4d !important;
+}
+
+.mat-warn[disabled="true"] {
+  background-color: grey !important;
 }
